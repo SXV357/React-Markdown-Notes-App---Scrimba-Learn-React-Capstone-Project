@@ -21,7 +21,7 @@ export default function Sidebar({
           <FontAwesomeIcon
             className="fa-trash trash-icon"
             icon={faTrashCan}
-            onClick={(event) => del(event, note.id)}
+            onClick={() => del( note.id)}
           ></FontAwesomeIcon>
         </button>
       </div>
