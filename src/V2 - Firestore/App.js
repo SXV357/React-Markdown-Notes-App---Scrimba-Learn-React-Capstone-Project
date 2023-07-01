@@ -2,10 +2,9 @@ import React, {useState, useEffect} from "react";
 import Sidebar from "./Components/Sidebar";
 import Editor from "./Components/Editor";
 import Split from "react-split";
-// import { nanoid } from "nanoid";
-import "./style.css";
 import { onSnapshot, addDoc, doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { notesCollection, db } from "./firebase";
+import { notesCollection, db } from "../firebase";
+import "../style.css"
 
 export default function App() {
   // addDoc and deleteDoc both return a promise so they need to be run asynchronously
