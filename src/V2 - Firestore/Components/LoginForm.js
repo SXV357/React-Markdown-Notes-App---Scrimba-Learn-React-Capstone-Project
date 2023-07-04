@@ -3,7 +3,7 @@ import {Form, Grid, Header, Segment } from 'semantic-ui-react'
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { boxStyles } from '../CustomStyles';
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import { LoggedInContext } from '../LoggedInContextProvider';
 
 export default function LoginForm(){
@@ -11,6 +11,7 @@ export default function LoginForm(){
     const [loginEmail, setLoginEmail] = useState("")
     const [loginPassword, setLoginPassword] = useState("")
     const {toggleLoginStatus} = useContext(LoggedInContext);
+    const navigate = useNavigate();
     // const [user, setUser] = useState({})
     // // need to check whether user.email exists and then log them into the app
 
@@ -21,7 +22,7 @@ export default function LoginForm(){
     const handleLogin = () => {
       // upon successful login only
       alert("You are now being redirected to the application")
-      window.location.href = "/notes-app";
+      navigate("/notes-app");
     }
     
     async function logIn(){
