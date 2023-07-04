@@ -8,6 +8,7 @@ export default function Sidebar({
   setCurrentNoteId,
   newNote,
   del,
+  signOut
 }) {
   // The logic in the text-snippet div replaces the default note title with the first few words in the body
   const noteElements = notes.map((note, index) => (
@@ -32,6 +33,7 @@ export default function Sidebar({
     <section className="pane sidebar">
       <div className="sidebar--header">
         <h3>Note History</h3>
+        <button onClick = {signOut}>Sign Out</button>
         <button className="new-note" onClick={newNote}>
           +
         </button>

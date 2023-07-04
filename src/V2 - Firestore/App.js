@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from "react"
-import {Routes, Route, Link} from "react-router-dom"
+import {Routes, Route, Link, useNavigate} from "react-router-dom"
 import LoginForm from "./Components/LoginForm"
 import SignUpForm from "./Components/SignUpForm"
 import Main from "./Main"
@@ -10,6 +10,8 @@ import { LoggedInContext } from "./LoggedInContextProvider"
 export default function App(){
   // eslint-disable-next-line
   const [user, setUser] = useState({})
+  const [isSignedOut, setIsSignedOut] = useState(false);
+  const navigate = useNavigate();
   const {isLoggedIn} = useContext(LoggedInContext);
 
   useEffect(() => {
@@ -21,15 +23,18 @@ export default function App(){
 
   return (
     <>
-      {!isLoggedIn ? (
+      {(!isLoggedIn || isSignedOut) && (
         <>
           <button><Link to="/login">Log In</Link></button>
           <button><Link to="/signup">Sign Up</Link></button>
         </>
-      ) : null}
+      )}
 
       <Routes>
-        <Route exact path = "/notes-app" element = {<Main currentUser = {user}/>} />
+        <Route exact path = "/notes-app" element = {<Main currentUser = {user?.email} signOut = {() => {
+          setIsSignedOut(true);
+          navigate("/login");
+        }}/>} />
         <Route path="/login" element={<LoginForm/>} />
         <Route path="/signup" element={<SignUpForm />} />
       </Routes>

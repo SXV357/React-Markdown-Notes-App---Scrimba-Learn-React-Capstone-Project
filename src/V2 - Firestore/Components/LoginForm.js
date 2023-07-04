@@ -22,6 +22,7 @@ export default function LoginForm(){
     const handleLogin = () => {
       // upon successful login only
       alert("You are now being redirected to the application")
+      // window.location.href causes page refresh causing context to be reset
       navigate("/notes-app");
     }
     

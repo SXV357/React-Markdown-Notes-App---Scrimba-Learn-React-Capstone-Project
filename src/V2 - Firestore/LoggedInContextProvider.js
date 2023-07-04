@@ -7,10 +7,6 @@ export default function LoggedInContextProvider({children}) {
 
   const toggleLoginStatus = () => setIsLoggedIn(prevStatus => !prevStatus);
 
-  useEffect(() => {
-    console.log(isLoggedIn);
-  }, [isLoggedIn])
-
   return (
     <LoggedInContext.Provider value = {{isLoggedIn, toggleLoginStatus}}>
         {children}

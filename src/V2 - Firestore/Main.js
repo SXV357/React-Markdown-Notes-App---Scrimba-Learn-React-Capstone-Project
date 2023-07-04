@@ -6,7 +6,7 @@ import { onSnapshot, addDoc, doc, deleteDoc, updateDoc } from "firebase/firestor
 import { notesCollection, db } from "../firebase";
 import "../style.css"
 
-export default function App() {
+export default function App({currentUser, signOut}) {
     // addDoc and deleteDoc both return a promise so they need to be run asynchronously
     const [notes, setNotes] = useState([]);
     const [tempNoteText, setTempNoteText] = useState("");
@@ -88,6 +88,7 @@ export default function App() {
         {notes.length > 0 ? (
           <Split sizes={[30, 70]} direction="horizontal" className="split">
             <Sidebar
+              signOut = {signOut}
               notes={sortedNotesArray}
               currentNote={currentNote}
               setCurrentNoteId={setCurrentNoteId}
@@ -98,7 +99,7 @@ export default function App() {
           </Split>
         ) : (
           <div className="no-notes">
-            <h1 className="no-note-title">You have no notes</h1>
+            <h1 className="no-note-title">You have no notes {currentUser.slice(0, currentUser.indexOf("@"))}</h1>
             <button className="first-note" onClick={createNewNote}>
               Create one now
             </button>
