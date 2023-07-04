@@ -8,10 +8,12 @@ export default function Sidebar({
   setCurrentNoteId,
   newNote,
   del,
-  signOut
+  signOut,
+  currentUser
 }) {
+
   // The logic in the text-snippet div replaces the default note title with the first few words in the body
-  const noteElements = notes.map((note, index) => (
+  const noteElements = notes.filter((note) => note.userEmail === currentUser).map((note, index) => (
     <div key={index}>
       <div
         className={`title ${note.id === currentNote.id ? "selected-note" : ""}`}
@@ -34,11 +36,20 @@ export default function Sidebar({
       <div className="sidebar--header">
         <h3>Note History</h3>
         <button onClick = {signOut}>Sign Out</button>
-        <button className="new-note" onClick={newNote}>
+        <button className="new-note" onClick={() => newNote(currentUser)}>
           +
         </button>
       </div>
-      {noteElements}
+      {noteElements.length === 0 ? (
+        <>
+        <div className="no-notes">
+          <h1 className="no-note-title">You have no notes {currentUser.slice(0, currentUser.indexOf("@"))}</h1>
+          <button className="first-note" onClick={() => newNote(currentUser)}>
+            Create one now
+          </button>
+      </div>
+        </>
+      ) : noteElements}
     </section>
   );
 }

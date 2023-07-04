@@ -48,12 +48,13 @@ export default function App({currentUser, signOut}) {
     }, []); // we only want this listener to establish the connection when the component mounts
   
     // This is what the user is presented with whenever they create a new note
-     async function createNewNote() {
+     async function createNewNote(currentUser) {
       const newNote = {
         // firestore is handling id generation so there's no need to pass it in
         body: "# Type your markdown note's title here",
         createdAt: Date.now(),
-        updatedAt: Date.now()
+        updatedAt: Date.now(),
+        userEmail: currentUser
       };
       const newNoteRef = await addDoc(notesCollection, newNote);
       // specify which collection we want to add the note to and use that reference to set the id
@@ -85,8 +86,7 @@ export default function App({currentUser, signOut}) {
   
     return (
       <main>
-        {notes.length > 0 ? (
-          <Split sizes={[30, 70]} direction="horizontal" className="split">
+        <Split sizes={[30, 70]} direction="horizontal" className="split">
             <Sidebar
               signOut = {signOut}
               notes={sortedNotesArray}
@@ -94,17 +94,10 @@ export default function App({currentUser, signOut}) {
               setCurrentNoteId={setCurrentNoteId}
               newNote={createNewNote}
               del={deleteNote}
+              currentUser = {currentUser}
             />
             <Editor tempNoteText = {tempNoteText} setTempNoteText = {setTempNoteText} />
           </Split>
-        ) : (
-          <div className="no-notes">
-            <h1 className="no-note-title">You have no notes {currentUser.slice(0, currentUser.indexOf("@"))}</h1>
-            <button className="first-note" onClick={createNewNote}>
-              Create one now
-            </button>
-          </div>
-        )}
       </main>
     );
   }
