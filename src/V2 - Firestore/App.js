@@ -1,19 +1,37 @@
-import React from "react"
+import React, {useState, useEffect, useContext} from "react"
 import {Routes, Route, Link} from "react-router-dom"
 import LoginForm from "./Components/LoginForm"
 import SignUpForm from "./Components/SignUpForm"
 import Main from "./Main"
+import { onAuthStateChanged } from "firebase/auth"
+import { auth } from "../firebase"
+import { LoggedInContext } from "./LoggedInContextProvider"
 
 export default function App(){
+  // eslint-disable-next-line
+  const [user, setUser] = useState({})
+  const {isLoggedIn} = useContext(LoggedInContext);
+
+  useEffect(() => {
+    const setup = onAuthStateChanged(auth, (currUser) => {
+      setUser(currUser);
+    })
+    return setup;
+  }, [])
+
   return (
     <>
-      <button><Link to="/login">Log In</Link></button>
-      <button><Link to="/signup">Sign Up</Link></button>
+      {!isLoggedIn ? (
+        <>
+          <button><Link to="/login">Log In</Link></button>
+          <button><Link to="/signup">Sign Up</Link></button>
+        </>
+      ) : null}
 
       <Routes>
-        <Route path="/login" element={<LoginForm />} />
+        <Route exact path = "/notes-app" element = {<Main currentUser = {user}/>} />
+        <Route path="/login" element={<LoginForm/>} />
         <Route path="/signup" element={<SignUpForm />} />
-        <Route path = "/notes-app" element = {<Main />} />
       </Routes>
     </>
   )

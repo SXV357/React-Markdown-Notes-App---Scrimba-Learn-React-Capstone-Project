@@ -1,35 +1,40 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useContext} from 'react'
 import {Form, Grid, Header, Segment } from 'semantic-ui-react'
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase';
-import { boxStyles } from '../..';
+import { boxStyles } from '../CustomStyles';
 import {Link} from "react-router-dom"
+import { LoggedInContext } from '../LoggedInContextProvider';
 
 export default function LoginForm(){
 
     const [loginEmail, setLoginEmail] = useState("")
     const [loginPassword, setLoginPassword] = useState("")
-    const [user, setUser] = useState({})
-    // need to check whether user.email exists and then log them into the app
+    const {toggleLoginStatus} = useContext(LoggedInContext);
+    // const [user, setUser] = useState({})
+    // // need to check whether user.email exists and then log them into the app
 
-    onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
-    })
+    // onAuthStateChanged(auth, (currentUser) => {
+    //     setUser(currentUser);
+    // })
 
     const handleLogin = () => {
-        alert("You are now being redirected to the application")
-        window.location.href = '/notes-app';
+      // upon successful login only
+      alert("You are now being redirected to the application")
+      window.location.href = "/notes-app";
     }
     
     async function logIn(){
-        try{
-          await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-          console.log("User logged in successfully")
-          handleLogin();
-        } catch(e){
-          console.log(e.message);
-        }
+      try {
+        await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+        console.log("User logged in successfully")
+        toggleLoginStatus();
+        handleLogin();
+      } 
+      catch(e) {
+        console.log(e.message);
       }
+    }
 
     return (
         <Grid className = 'login-form' style={{ height: '100vh' }}>
@@ -47,7 +52,6 @@ export default function LoginForm(){
                 placeholder='Password'
                 type='password'
               />
-    
               <button onClick = {logIn} color='teal' fluid size='large' className = "btn">
                 Login
               </button>

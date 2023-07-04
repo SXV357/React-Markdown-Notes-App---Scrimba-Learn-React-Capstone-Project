@@ -2,33 +2,34 @@ import React, {useState} from 'react'
 import {Form, Grid, Header, Segment } from 'semantic-ui-react'
 import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase';
-import { boxStyles } from '../..';
+import { boxStyles } from '../CustomStyles';
 import {Link} from "react-router-dom"
 
 export default function SignUpForm(){
 
     const [signUpEmail, setSignUpEmail] = useState("")
     const [signUpPassword, setSignUpPassword] = useState("")
-    const [user, setUser] = useState({})
+    // const [user, setUser] = useState({})
 
-    onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
-    })
+    // onAuthStateChanged(auth, (currentUser) => {
+    //     setUser(currentUser);
+    // })
 
     function toLogin(){
-        alert('You are now being redirected to the login page')
-        window.location.href = '/login';
-      }
+      alert('You are now being redirected to the login page')
+      window.location.href = '/login';
+    }
     
-      async function signUp(){
-        try{
-          await createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword);
-          console.log("User created successfully")
-          toLogin();
-        } catch(e){
-          console.log(e.message);
-        }
+    async function signUp(){
+      try {
+        await createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword);
+        console.log("User created successfully")
+        toLogin();
       }
+      catch(e) {
+        console.log(e.message);
+      }
+    }
 
     return (
     <Grid className = 'login-form' style={{ height: '100vh' }}>
