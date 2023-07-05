@@ -1,8 +1,8 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import ReactMde from "react-mde"
 import Showdown from "showdown"
 
-export default function Editor({ tempNoteText, setTempNoteText }) {
+export default function Editor({ tempNoteText, setTempNoteText, notes }) {
     const [selectedTab, setSelectedTab] = useState("write")
 
     // As per the default setup specified here: https://github.com/andrerpena/react-mde
@@ -12,6 +12,8 @@ export default function Editor({ tempNoteText, setTempNoteText }) {
         strikethrough: true,
         tasklists: true,
     })  
+
+    const notesStatus = notes.length === 0;
 
     return (
         <section className="pane editor">
@@ -25,6 +27,8 @@ export default function Editor({ tempNoteText, setTempNoteText }) {
                 }
                 minEditorHeight={80}
                 heightUnits="vh"
+                disablePreview = {notesStatus}
+                readOnly = {notesStatus}
             />
         </section>
     )

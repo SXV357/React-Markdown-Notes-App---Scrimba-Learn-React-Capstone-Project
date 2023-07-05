@@ -5,14 +5,13 @@ import SignUpForm from "./Components/SignUpForm"
 import Main from "./Main"
 import { onAuthStateChanged } from "firebase/auth"
 import { auth } from "../firebase"
-import { LoggedInContext } from "./LoggedInContextProvider"
+import { LoggedInContext } from "./AuthenticationProvider"
 
 export default function App(){
   // eslint-disable-next-line
   const [user, setUser] = useState({})
-  const [isSignedOut, setIsSignedOut] = useState(false);
   const navigate = useNavigate();
-  const {isLoggedIn} = useContext(LoggedInContext);
+  const {isLoggedIn, isSignedOut, toggleSignOutStatus} = useContext(LoggedInContext);
 
   useEffect(() => {
     const setup = onAuthStateChanged(auth, (currUser) => {
@@ -32,10 +31,10 @@ export default function App(){
 
       <Routes>
         <Route exact path = "/notes-app" element = {<Main currentUser = {user?.email} signOut = {() => {
-          setIsSignedOut(true);
+          toggleSignOutStatus();
           navigate("/login");
         }}/>} />
-        <Route path="/login" element={<LoginForm/>} />
+        <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignUpForm />} />
       </Routes>
     </>

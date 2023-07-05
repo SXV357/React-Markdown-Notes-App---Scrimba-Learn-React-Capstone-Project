@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './V2 - Firestore/App';
 import {BrowserRouter} from "react-router-dom"
-import LoggedInContextProvider from './V2 - Firestore/LoggedInContextProvider';
+import AuthenticationProvider from './V2 - Firestore/AuthenticationProvider';
 
 ReactDOM.render(<React.StrictMode>
   <BrowserRouter>
-    <LoggedInContextProvider>
+    <AuthenticationProvider>
       <App/>
-    </LoggedInContextProvider>
+    </AuthenticationProvider>
   </BrowserRouter>
 </React.StrictMode>, document.getElementById('root'));

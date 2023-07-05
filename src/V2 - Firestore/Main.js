@@ -38,14 +38,16 @@ export default function App({currentUser, signOut}) {
   
         // .docs technically represents the notes array and firestore already assigns a unique id to each document, so it can be set
           // document.data represents the body property of each note and since we don't want that to be changed, we keep it the way it is
-        const notesArr = snapshot.docs.map(document => ({id: document.id, ...document.data()}));
+        const notesArr = snapshot.docs
+          .map((document) => ({ id: document.id, ...document.data() }))
+          .filter((note) => note.userEmail === currentUser);
         setNotes(notesArr);
       })
   
       // allow react to call the function when it needs to clean up any side effects as part of establishing the socket connection via the event listener
       return unsubscribe;
   
-    }, []); // we only want this listener to establish the connection when the component mounts
+    }, [currentUser]); // we only want this listener to establish the connection when the component mounts
   
     // This is what the user is presented with whenever they create a new note
      async function createNewNote(currentUser) {
@@ -96,7 +98,7 @@ export default function App({currentUser, signOut}) {
               del={deleteNote}
               currentUser = {currentUser}
             />
-            <Editor tempNoteText = {tempNoteText} setTempNoteText = {setTempNoteText} />
+            <Editor notes = {notes} tempNoteText = {tempNoteText} setTempNoteText = {setTempNoteText} />
           </Split>
       </main>
     );
