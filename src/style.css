@@ -9,6 +9,14 @@ body {
   font-family: 'Karla', sans-serif;
 }
 
+.email-field, .password-field{
+  padding: 10px;
+}
+
+.email-field{
+  margin-bottom: 7.5px;
+}
+
 .mde-tabs{
   display: flex;
   gap: 13px;

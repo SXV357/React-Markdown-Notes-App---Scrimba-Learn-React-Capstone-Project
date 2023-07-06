@@ -1,11 +1,11 @@
 import React, {useState, useContext} from 'react'
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import {Form, Grid, Header } from 'semantic-ui-react'
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
 import {Link, useNavigate} from "react-router-dom"
 import { LoggedInContext } from '../AuthenticationProvider';
-import { FormStyles, ActionStyles } from '../CustomStyles';
+import { FormStyles, ActionStyles, InputGroupStyles, ButtonStyles } from '../CustomStyles';
+import UseCredentialValidation from '../UseCredentialValidation';
 
 export default function LoginForm(){
 
@@ -13,6 +13,7 @@ export default function LoginForm(){
     const [loginPassword, setLoginPassword] = useState("")
     const {toggleLoginStatus} = useContext(LoggedInContext);
     const navigate = useNavigate();
+    const {error, validate} = UseCredentialValidation();
 
     const handleLogin = () => {
       // window.location.href causes page refresh causing context to be reset
@@ -22,33 +23,47 @@ export default function LoginForm(){
     
     async function logIn(){
       try {
+        validate(loginEmail, loginPassword);
         await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
         console.log("User logged in successfully")
         toggleLoginStatus();
         handleLogin();
-      } 
-      catch(e) {
+      }
+      catch (e) {
         console.log(e.message);
       }
     }
 
     return (
-      <Form style = {FormStyles}>
-      <header><h2>Log into an existing account</h2></header>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" onChange = {(e) => setLoginEmail(e.target.value)} value = {loginEmail}/>
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" value = {loginPassword} onChange = {(e) => setLoginPassword(e.target.value)}/>
-      </Form.Group>
-      
-      <div style = {ActionStyles}>
-        <Button variant="primary" type="submit" onClick = {logIn}>Log In</Button>
-        <span>New to Us? <Link to = '/signup'><span className = "bold">Sign up!</span></Link></span>
-      </div>
-    </Form>
+      <Grid className = 'login-form' style={FormStyles}>
+        <Grid.Column>
+          <Header as='h2' color='teal' textAlign='center'>
+            <div className = "logo-and-header">Log into an existing account</div>
+          </Header>
+          <Form size='large' className = "form">
+            <div style = {InputGroupStyles}>
+              <label htmlFor = "email">Email</label>
+              <input onChange = {(e) => setLoginEmail(e.target.value)} value = {loginEmail} className = "email-field" placeholder='Email' />
+            </div>
+            <div style = {InputGroupStyles}>
+              <label htmlFor = "password">Password</label>
+              <input
+                className = "password-field"
+                value = {loginPassword}
+                onChange = {(e) => setLoginPassword(e.target.value)}
+                placeholder='Password'
+                type='password'
+              />
+            </div>
+            <div style = {{color: "rgb(255,0,0)", marginTop: "7px", textAlign: "center"}}>{error}</div>
+              <div style = {ActionStyles}>
+                <button style = {ButtonStyles} onClick = {logIn} color='teal' fluid size='large' className = "btn">
+                  Login
+                </button>
+                <div className = "message-box">New to Us? <Link style = {{textDecoration: "none", fontWeight: "bold", color: "#000"}} to = '/signup'><span className = "bold">Sign up!</span></Link></div>
+              </div>
+          </Form>
+        </Grid.Column>
+      </Grid>
     )
 }

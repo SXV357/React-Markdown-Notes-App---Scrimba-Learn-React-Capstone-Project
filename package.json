@@ -21,6 +21,7 @@
     "react-split": "^2.0.14",
     "semantic-ui-react": "^2.1.4",
     "showdown": "^2.1.0",
+    "styled-components": "^6.0.2",
     "web-vitals": "^2.1.4"
   },
   "resolutions": {
