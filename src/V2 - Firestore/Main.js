@@ -77,6 +77,8 @@ export default function App({currentUser, signOut}) {
         // the name of the notescollection and the id of the note to be deleted
       const currentDocRef = doc(db, "notes", noteId);
       await deleteDoc(currentDocRef);
+      setCurrentNoteId("");
+      setTempNoteText("");
     }
   
     useEffect(() => {
