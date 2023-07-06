@@ -10,7 +10,7 @@ export default function SignUpForm(){
 
     const [signUpEmail, setSignUpEmail] = useState("")
     const [signUpPassword, setSignUpPassword] = useState("")
-    const {error, validate} = UseCredentialValidation();
+    const {error, setError, validate} = UseCredentialValidation();
 
     function toLogin(){
       alert('You are now being redirected to the login page')
@@ -25,7 +25,12 @@ export default function SignUpForm(){
         toLogin();
       }
       catch(e) {
-        console.log(e.message)
+        switch (e.code){
+          case "auth/invalid-email": setError("The email doesn't conform to the default naming convention. Please enter a valid one."); break;
+          case "auth/email-already-in-use": setError("There is already an account associated with this email address. Please log in."); break;
+          case "auth/weak-password": setError("Please enter a stronger password."); break;
+          default: setError(`An unknown error occurred: ${e.message}`)
+        }
       }
     }
 

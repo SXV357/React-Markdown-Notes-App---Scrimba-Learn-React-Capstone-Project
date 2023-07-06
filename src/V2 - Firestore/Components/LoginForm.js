@@ -13,7 +13,7 @@ export default function LoginForm(){
     const [loginPassword, setLoginPassword] = useState("")
     const {toggleLoginStatus} = useContext(LoggedInContext);
     const navigate = useNavigate();
-    const {error, validate} = UseCredentialValidation();
+    const {error, setError, validate} = UseCredentialValidation();
 
     const handleLogin = () => {
       // window.location.href causes page refresh causing context to be reset
@@ -30,7 +30,12 @@ export default function LoginForm(){
         handleLogin();
       }
       catch (e) {
-        console.log(e.message);
+        switch (e.code){
+          case "auth/user-not-found": setError("This email is non-existent. Please create an account before logging in."); break;
+          case "auth/invalid-email": setError("The email doesn't conform to the default naming convention. Please enter a valid one."); break;
+          case "auth/wrong-password": setError("Incorrect password. Please try again"); break;
+          default: setError(`An unknown error occurred: ${e.message}`);
+        }
       }
     }
 
