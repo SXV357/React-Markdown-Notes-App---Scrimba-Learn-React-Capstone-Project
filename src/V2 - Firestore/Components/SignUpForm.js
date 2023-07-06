@@ -1,9 +1,10 @@
 import React, {useState} from 'react'
-import {Form, Grid, Header, Segment } from 'semantic-ui-react'
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
-import { boxStyles } from '../CustomStyles';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import {Link} from "react-router-dom"
+import { FormStyles, ActionStyles } from '../CustomStyles';
 
 export default function SignUpForm(){
 
@@ -27,28 +28,22 @@ export default function SignUpForm(){
     }
 
     return (
-    <Grid className = 'login-form' style={{ height: '100vh' }}>
-      <Grid.Column style={boxStyles}>
-        <Header as='h2' color='teal' textAlign='center'>
-          <div className = "logo-and-header">Create an account</div>
-        </Header>
-        <Form size='large' className = "form">
-          <Segment stacked>
-            <input onChange = {(e) => setSignUpEmail(e.target.value)} value = {signUpEmail} className = "login-field" placeholder='E-mail address' />
-            <input
-              className = "login-field"
-              value = {signUpPassword}
-              onChange = {(e) => setSignUpPassword(e.target.value)}
-              placeholder='Password'
-              type='password'
-            />
-            <button onClick = {signUp} color='teal' fluid size='large' className = "btn">
-              Sign Up
-            </button>
-            <div className = "message-box">Already have an account? <Link to = '/login'><span className = "bold">Log in!</span></Link></div>
-          </Segment>
-        </Form>
-      </Grid.Column>
-    </Grid>
+      <Form style = {FormStyles}>
+      <header><h2>Create a new account</h2></header>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control type="email" placeholder="Enter email" onChange = {(e) => setSignUpEmail(e.target.value)} value = {signUpEmail}/>
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control type="password" placeholder="Password" value = {signUpPassword} onChange = {(e) => setSignUpPassword(e.target.value)}/>
+      </Form.Group>
+      
+     <div style = {ActionStyles}>
+        <Button variant="primary" type="submit" onClick = {signUp}>Sign Up</Button>
+        <span> Already have an account? <Link to = '/login'><span className = "bold">Log In!</span></Link></span>
+     </div>
+    </Form>
     )
 }
