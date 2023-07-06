@@ -1,5 +1,15 @@
 This project consists of two versions:
-  1. The notes that the user creates and interacts with are loaded from local storage
-  2. The notes that the user creates and interacts with are stored in the firestore database
+  1. The notes that the user creates and interacts with are loaded from local storage and managed by local state.
+  2. The notes that the user creates and interacts with are stored in the firestore database.
 
-Although the first and original version is available for viewing in the V1 - Local Storage folder, the project is currently configured and operating around the second version. There are some stretch goals that I plan on implementing such as requiring authentication before being permitted to make requests to the database, and also enabling responsiveness.
+The original version is available for viewing in the V1 - Local Storage folder, and the project is currently configured and operating around the second version.
+
+Features available in V2 - Firestore
+  1. Firebase authentication has been enabled such that the application can now support multiple users.
+  2. Notes are fetched from the database depending on which user is currently signed in and users are also prompted to create a new note if they don't have any           previously created ones
+  3. Validation has been enabled to handle all possible authentication errors and to ensure the user has a smooth experience.
+  4. The user is prevented from interacting with the view switchers and the editor when they have no notes
+  5. The user is able to sign out whenever they wish
+
+Drawbacks 
+  1. The application is non-responsive since it's meant to only be used on a desktop resolution. If accessed through any other means, all the elements will be            disoriented.
