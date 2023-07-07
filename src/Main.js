@@ -3,8 +3,8 @@ import Sidebar from "./Components/Sidebar";
 import Editor from "./Components/Editor";
 import Split from "react-split";
 import { onSnapshot, addDoc, doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { notesCollection, db } from "../firebase";
-import "../style.css"
+import { notesCollection, db } from "./firebase";
+import "./style.css"
 
 export default function App({currentUser, signOut}) {
     // addDoc and deleteDoc both return a promise so they need to be run asynchronously

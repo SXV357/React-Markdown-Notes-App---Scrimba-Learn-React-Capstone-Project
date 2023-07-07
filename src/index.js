@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './V2 - Firestore/App';
+import App from './App';
 import {BrowserRouter} from "react-router-dom"
-import AuthenticationProvider from './V2 - Firestore/AuthenticationProvider';
+import AuthenticationProvider from './AuthenticationProvider';
 
 ReactDOM.render(<React.StrictMode>
   <BrowserRouter>
