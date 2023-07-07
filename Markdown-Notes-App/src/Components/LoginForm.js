@@ -3,9 +3,9 @@ import {Form, Grid, Header } from 'semantic-ui-react'
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import {Link, useNavigate} from "react-router-dom"
-import { LoggedInContext } from '../V2 - Firestore/AuthenticationProvider';
-import { FormStyles, ActionStyles, InputGroupStyles, ButtonStyles } from '../V2 - Firestore/CustomStyles';
-import UseCredentialValidation from '../V2 - Firestore/UseCredentialValidation';
+import { LoggedInContext } from '../AuthenticationProvider';
+import { FormStyles, ActionStyles, InputGroupStyles, ButtonStyles } from '../CustomStyles';
+import UseCredentialValidation from '../UseCredentialValidation';
 
 export default function LoginForm(){
 
@@ -32,9 +32,7 @@ export default function LoginForm(){
       catch (e) {
         switch (e.code){
           case "auth/user-not-found": setError("This email is non-existent. Please create an account before logging in."); break;
-          case "auth/invalid-email": setError("The email doesn't conform to the default naming convention. Please enter a valid one."); break;
           case "auth/wrong-password": setError("Incorrect password. Please try again"); break;
-          default: setError(`An unknown error occurred: ${e.message}`);
         }
       }
     }
