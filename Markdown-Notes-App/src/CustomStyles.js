@@ -32,14 +32,3 @@ export const InputGroupStyles = {
     flexDirection: "column",
     gap: "10px"
 }
-
-export const ButtonStyles = {
-    background: "#1F51FF",
-    color: "#fff",
-    border: "1px solid #A7C7E7",
-    borderRadius: "5px",
-    cursor: "pointer",
-    fontWeight: "bold",
-    padding: ELEMENT_GAP,
-    width: "100px"
-}

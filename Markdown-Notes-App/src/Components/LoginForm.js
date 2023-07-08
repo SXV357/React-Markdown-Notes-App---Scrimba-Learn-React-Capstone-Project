@@ -4,7 +4,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import {Link, useNavigate} from "react-router-dom"
 import { LoggedInContext } from '../Context/AuthenticationProvider';
-import { FormStyles, ActionStyles, InputGroupStyles, ButtonStyles } from '../CustomStyles';
+import { FormStyles, ActionStyles, InputGroupStyles } from '../CustomStyles';
 import UseCredentialValidation from '../Hooks/UseCredentialValidation';
 import UsePasswordDisplayToggle from '../Hooks/UsePasswordDisplayToggle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,7 +16,7 @@ export default function LoginForm(){
     const {toggleLoginStatus} = useContext(LoggedInContext);
     const navigate = useNavigate();
     const {error, setError, validate} = UseCredentialValidation();
-    const {icon, toggleDisplayPw} = UsePasswordDisplayToggle();
+    const {displayPw, icon, toggleDisplayPw, displayConditions, validPassword} = UsePasswordDisplayToggle(loginPassword);
 
     const handleLogin = () => {
       // window.location.href causes page refresh causing context to be reset
@@ -59,14 +59,15 @@ export default function LoginForm(){
                   value = {loginPassword}
                   onChange = {(e) => setLoginPassword(e.target.value)}
                   placeholder='Password'
-                  type='password'
+                  type= {displayPw ? "text" : "password"}
                 />
                 <FontAwesomeIcon className = "icon" icon = {icon} onClick = {toggleDisplayPw}/>
               </div>
             </div>
+            {displayConditions()}
             <div style = {{color: "rgb(255,0,0)", marginTop: "7px", textAlign: "center"}}>{error}</div>
               <div style = {ActionStyles}>
-                <button style = {ButtonStyles} onClick = {logIn} color='teal' fluid size='large' className = "btn">
+                <button disabled = {!validPassword} onClick = {logIn} className = "btn">
                   Login
                 </button>
                 <div className = "message-box">New to Us? <Link style = {{textDecoration: "none", fontWeight: "bold", color: "#000"}} to = '/signup'><span className = "bold">Sign up!</span></Link></div>

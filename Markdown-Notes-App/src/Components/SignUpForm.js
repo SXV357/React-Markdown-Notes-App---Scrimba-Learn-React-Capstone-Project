@@ -3,7 +3,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import {Form, Grid, Header } from 'semantic-ui-react'
 import {Link} from "react-router-dom"
-import { FormStyles, ActionStyles, InputGroupStyles, ButtonStyles } from '../CustomStyles';
+import { FormStyles, ActionStyles, InputGroupStyles } from '../CustomStyles';
 import UseCredentialValidation from '../Hooks/UseCredentialValidation';
 import UsePasswordDisplayToggle from '../Hooks/UsePasswordDisplayToggle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,7 +13,7 @@ export default function SignUpForm(){
     const [signUpEmail, setSignUpEmail] = useState("")
     const [signUpPassword, setSignUpPassword] = useState("")
     const {error, setError, validate} = UseCredentialValidation();
-    const {icon, toggleDisplayPw} = UsePasswordDisplayToggle();
+    const {displayPw, icon, toggleDisplayPw, displayConditions, validPassword} = UsePasswordDisplayToggle(signUpPassword);
 
     function toLogin(){
       alert('You are now being redirected to the login page')
@@ -30,7 +30,6 @@ export default function SignUpForm(){
       catch(e) {
         switch (e.code){
           case "auth/email-already-in-use": setError("There is already an account associated with this email address. Please log in."); break;
-          case "auth/weak-password": setError("Please enter a stronger password."); break;
         }
       }
     }
@@ -54,14 +53,15 @@ export default function SignUpForm(){
                   value = {signUpPassword}
                   onChange = {(e) => setSignUpPassword(e.target.value)}
                   placeholder='Password'
-                  type='password' 
+                  type= {displayPw ? "text" : "password"} 
                 />
                 <FontAwesomeIcon className = "icon" icon = {icon} onClick = {toggleDisplayPw}/>
               </div>
             </div>
+            {displayConditions()}
             <div style = {{color: "rgb(255,0,0)", marginTop: "7px", textAlign: "center"}}>{error}</div>
             <div style={ActionStyles}>
-              <button style = {ButtonStyles} onClick = {signUp} color='teal' fluid size='large' className = "btn">
+              <button disabled = {!validPassword} onClick = {signUp} className = "btn">
                 Sign Up
               </button>
               <div className = "message-box">Already have an account? <Link style = {{textDecoration: "none", fontWeight: "bold", color: "#000"}} to = '/login'><span className = "bold">Log in!</span></Link></div>
