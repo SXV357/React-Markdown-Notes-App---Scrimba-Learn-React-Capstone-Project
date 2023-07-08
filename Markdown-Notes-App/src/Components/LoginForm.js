@@ -3,9 +3,11 @@ import {Form, Grid, Header } from 'semantic-ui-react'
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import {Link, useNavigate} from "react-router-dom"
-import { LoggedInContext } from '../AuthenticationProvider';
+import { LoggedInContext } from '../Context/AuthenticationProvider';
 import { FormStyles, ActionStyles, InputGroupStyles, ButtonStyles } from '../CustomStyles';
-import UseCredentialValidation from '../UseCredentialValidation';
+import UseCredentialValidation from '../Hooks/UseCredentialValidation';
+import UsePasswordDisplayToggle from '../Hooks/UsePasswordDisplayToggle';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default function LoginForm(){
 
@@ -14,6 +16,7 @@ export default function LoginForm(){
     const {toggleLoginStatus} = useContext(LoggedInContext);
     const navigate = useNavigate();
     const {error, setError, validate} = UseCredentialValidation();
+    const {icon, toggleDisplayPw} = UsePasswordDisplayToggle();
 
     const handleLogin = () => {
       // window.location.href causes page refresh causing context to be reset
@@ -50,13 +53,16 @@ export default function LoginForm(){
             </div>
             <div style = {InputGroupStyles}>
               <label htmlFor = "password">Password</label>
-              <input
-                className = "password-field"
-                value = {loginPassword}
-                onChange = {(e) => setLoginPassword(e.target.value)}
-                placeholder='Password'
-                type='password'
-              />
+              <div className = "inputIconWrapper">
+                <input
+                  className = "password-field"
+                  value = {loginPassword}
+                  onChange = {(e) => setLoginPassword(e.target.value)}
+                  placeholder='Password'
+                  type='password'
+                />
+                <FontAwesomeIcon className = "icon" icon = {icon} onClick = {toggleDisplayPw}/>
+              </div>
             </div>
             <div style = {{color: "rgb(255,0,0)", marginTop: "7px", textAlign: "center"}}>{error}</div>
               <div style = {ActionStyles}>

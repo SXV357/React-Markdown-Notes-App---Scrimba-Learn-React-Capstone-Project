@@ -5,7 +5,7 @@ import SignUpForm from "./Components/SignUpForm"
 import Main from "./Main"
 import { onAuthStateChanged } from "firebase/auth"
 import { auth } from "./firebase"
-import { LoggedInContext } from "./AuthenticationProvider"
+import { LoggedInContext } from "./Context/AuthenticationProvider"
 import AuthButtons from "./Components/AuthButtons"
 
 export default function App(){

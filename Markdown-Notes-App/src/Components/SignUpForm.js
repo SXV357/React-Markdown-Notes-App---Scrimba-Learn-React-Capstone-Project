@@ -4,13 +4,16 @@ import { auth } from '../firebase';
 import {Form, Grid, Header } from 'semantic-ui-react'
 import {Link} from "react-router-dom"
 import { FormStyles, ActionStyles, InputGroupStyles, ButtonStyles } from '../CustomStyles';
-import UseCredentialValidation from '../UseCredentialValidation';
+import UseCredentialValidation from '../Hooks/UseCredentialValidation';
+import UsePasswordDisplayToggle from '../Hooks/UsePasswordDisplayToggle';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default function SignUpForm(){
 
     const [signUpEmail, setSignUpEmail] = useState("")
     const [signUpPassword, setSignUpPassword] = useState("")
     const {error, setError, validate} = UseCredentialValidation();
+    const {icon, toggleDisplayPw} = UsePasswordDisplayToggle();
 
     function toLogin(){
       alert('You are now being redirected to the login page')
@@ -45,13 +48,16 @@ export default function SignUpForm(){
             </div>
             <div style = {InputGroupStyles}>
               <label htmlFor = "password">Password</label>
-              <input
-                className = "password-field"
-                value = {signUpPassword}
-                onChange = {(e) => setSignUpPassword(e.target.value)}
-                placeholder='Password'
-                type='password'
-              />
+              <div className = "inputIconWrapper">
+                <input
+                  className = "password-field"
+                  value = {signUpPassword}
+                  onChange = {(e) => setSignUpPassword(e.target.value)}
+                  placeholder='Password'
+                  type='password' 
+                />
+                <FontAwesomeIcon className = "icon" icon = {icon} onClick = {toggleDisplayPw}/>
+              </div>
             </div>
             <div style = {{color: "rgb(255,0,0)", marginTop: "7px", textAlign: "center"}}>{error}</div>
             <div style={ActionStyles}>

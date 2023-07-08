@@ -13,6 +13,21 @@ body {
   padding: 10px;
 }
 
+.password-field{
+  width: 538px;
+}
+
+.inputIconWrapper{
+  position: relative;
+}
+
+.icon{
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .email-field{
   margin-bottom: 7.5px;
 }
