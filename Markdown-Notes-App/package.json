@@ -13,6 +13,7 @@
     "react-mde": "^11.5.0",
     "react-router-dom": "^6.14.1",
     "react-scripts": "5.0.1",
+    "react-spinners": "^0.13.8",
     "react-split": "^2.0.14",
     "semantic-ui-react": "^2.1.4",
     "showdown": "^2.1.0",

@@ -13,6 +13,12 @@ body {
   padding: 10px;
 }
 
+.pwConditions{
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(2, 1fr);
+  margin: 10px;
+}
+
 .password-field{
   width: 538px;
 }

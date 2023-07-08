@@ -38,7 +38,7 @@ export default function UsePasswordDisplayToggle(pw){
     const displayConditions = () => {
         return Object.keys(displayVals).map(text => {
             return (
-              <PasswordCheck value = {displayVals[text]} text = {text}/>
+                <PasswordCheck key = {text} value = {displayVals[text]} text = {text}/>
             )
         })
     }
